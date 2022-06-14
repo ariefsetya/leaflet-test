@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-        crossorigin="" />
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <style>
         body {
@@ -25,8 +25,8 @@
 <body>
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-        crossorigin=""></script>
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <script>
         var map_init = L.map('map', {
@@ -41,7 +41,18 @@
             console.log("Your browser doesn't support geolocation feature!")
         } else {
             setInterval(() => {
-                navigator.geolocation.getCurrentPosition(getPosition)
+                navigator.geolocation.getCurrentPosition(getPosition, 
+                    ((error) => {
+                        const errors = {
+                            1: 'Permission denied',
+                            2: 'Position unavailable',
+                            3: 'Request timeout'
+                        };
+
+                        alert("Error: " + errors[error.code]); // print the error
+                    }),
+                    ),
+                { enableHighAccuracy: true, timeout: 5000, maximumAge: 1000 }
             }, 1000);
         };
         var marker, circle, lat, long, accuracy;
